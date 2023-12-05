@@ -1,8 +1,21 @@
 # Kurnik.pl chess bot
 Bot to play chess on https://kurnik.pl <br>
+
+### How to configure and run program in linux?
+1. Download [release](https://github.com/matlewan/kurnik.pl-chess-bot/releases/download/1.0/kurnik.pl-chess-bot-linux-x64.tar.gz).
+2. Unpack archive.
+3. Set login and password in `settings.json` file.
+4. Run program
+    ```sh
+    ./main  # linux
+    ```
+5. Process will work in background. 
+6. You can see dashboard: http://localhost:8080
+
+### Development
 Requirements: [golang](https://go.dev), [npm](https://nodejs.org) and [uci engine](https://stockfishchess.org/download/).
 
-### How to compile program?
+How to compile program?
 ```sh
 cd dashboard
 npm install # creates node_modules directory
@@ -10,14 +23,3 @@ npm run build # creates build directory
 cd ..
 go build # creates main program
 ```
-
-### How to configure and run program?
-1. Set login and password in `settings.json` file.
-2. Set path to UCI engine in `settings.json` (default is /usr/bin/stockfish for stockfish engine).
-3. Run program
-    ```sh
-    ./main  # linux
-    .\main  # windows
-    ```
-4. Process will work in background. 
-5. You can see dashboard: http://localhost:8080
