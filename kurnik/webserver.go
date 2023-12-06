@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"main/utils"
+
 	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 )
@@ -12,6 +13,9 @@ import (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  2048,
 	WriteBufferSize: 2048,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
 type WebClientList map[string]*websocket.Conn

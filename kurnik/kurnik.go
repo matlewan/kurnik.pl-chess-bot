@@ -294,11 +294,10 @@ func WebSocketWriteJson(conn *websocket.Conn, p *WebPayload) error {
 
 func (q *KurnikBot) HandleWebSocketMessage(p WebPayload, conn *websocket.Conn) {
 	switch p.Command {
-	case "init_rating":
-		wp := WebPayload{}
-		wp.Command = "add_rating"
-		wp.Data = q.CurrentPlayer.RatingChange
-
+	case "init":
+		wp := WebPayload{"add_rating", q.CurrentPlayer.RatingChange}
+		WebSocketWriteJson(conn, &wp)
+		wp = WebPayload{"info", q}
 		WebSocketWriteJson(conn, &wp)
 	case "depth":
 		v, ok := p.Data.(int)
@@ -488,6 +487,9 @@ func (q *KurnikBot) RecieveRoomSeat(p PayloadIntString) {
 
 func (q *KurnikBot) ReceiveMove(p PayloadIntString) {
 	err := q.Game.Chess.MoveStr(p.S[0])
+
+	wp := WebPayload{"info", q}
+	q.BroadcastWebSocketMessage(&wp)
 	if err != nil {
 		panic(err)
 	}

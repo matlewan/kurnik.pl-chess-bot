@@ -6,7 +6,7 @@ class RatingChart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.props.ws.send(buildPayload("init_rating", null));
+    this.props.ws.send(buildPayload("init", null));
   }
 
   render() {

@@ -27,11 +27,14 @@ class App extends React.Component {
 
     this.state = {
       connected: false,
-      chart_data: [["X", "Rating"]]
+      chart_data: [["X", "Rating"]],
     };
   }
+  chunk(arr, chunkSize) {
+    const len = Math.ceil(arr.length / chunkSize)
+    return Array.from({length: len}, () => arr.splice(0,chunkSize));
+  }
   handleMessage(e) {
-    console.log(e.data);
     var obj = JSON.parse(e.data);
 
     switch (obj.command) {
@@ -42,6 +45,13 @@ class App extends React.Component {
         });
         this.setState({ chart_data: arr });
         break;
+      case "info":
+        this.setState({
+          info: true, 
+          player: obj.data.CurrentPlayer.User, 
+          pgn: this.chunk(obj.data.Game.Chess.trim().split(" "), 3)
+        })
+        break;
       default:
         break;
     }
@@ -49,8 +59,29 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        {this.state.connected && (
-          <RatingChart ws={this.ws} chart_data={this.state.chart_data} />
+        <div>
+          {this.state.connected && (
+            <RatingChart ws={this.ws} chart_data={this.state.chart_data} />
+          )}
+        </div>
+        {this.state.info && (
+        <div>
+          <table>
+            <tbody>
+              <tr><td>Player</td><td>{this.state.player.Name}</td></tr>
+              <tr><td>Room</td><td>#{this.state.player.RoomID}</td></tr>
+              <tr><td>Rating</td><td>{this.state.player.Rating}</td></tr>
+            </tbody>
+          </table>
+          <br/>
+          <table>
+            <tbody>
+              {this.state.pgn.slice(-10).map(row => {
+                return <tr><td>{row[0]}</td><td>{row[1]}</td><td>{row[2]}</td></tr>
+              })}
+            </tbody>
+          </table>
+        </div>
         )}
       </div>
     );

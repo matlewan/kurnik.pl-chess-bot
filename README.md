@@ -17,9 +17,9 @@ Requirements: [golang](https://go.dev), [npm](https://nodejs.org) and [uci engin
 
 How to compile program?
 ```sh
+go build
+go run main
 cd dashboard
-npm install # creates node_modules directory
-npm run build # creates build directory
-cd ..
-go build # creates main program
+npm ci # creates node_modules directory
+npm start # creates build directory
 ```

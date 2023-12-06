@@ -3,7 +3,7 @@
     "login": "",
     "password": ""
   },
-  "engine_depth": 20,
+  "engine_depth": 12,
   "engine_path": "/usr/bin/stockfish",
   "auto_start": true,
   "kick_low_elo": true,
